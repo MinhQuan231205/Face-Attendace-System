@@ -1,126 +1,124 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import axios from 'axios';
+import apiClient from '../../api/axios'; // Đảm bảo import apiClient
 
-function AttendanceTaker() {
+function AttendanceTaker({ sessionId, onRecognitionSuccess }) {
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
-
     const [isCameraOn, setIsCameraOn] = useState(false);
-    const [recognizedStudents, setRecognizedStudents] = useState([]);
-    const [lastRecognitionTime, setLastRecognitionTime] = useState(0);
+    const [message, setMessage] = useState('Sẵn sàng điểm danh.');
+    const [isProcessing, setIsProcessing] = useState(false);
+    
+    const recognitionIntervalRef = useRef(null);
 
-    const recognitionInterval = 2000; 
-
-    const toggleCamera = async () => {
-        if (isCameraOn) {
-            const stream = videoRef.current.srcObject;
-            const tracks = stream.getTracks();
-            tracks.forEach(track => track.stop());
-            videoRef.current.srcObject = null;
-            setIsCameraOn(false);
-            setRecognizedStudents([]); 
-        } else {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                videoRef.current.srcObject = stream;
-                setIsCameraOn(true);
-            } catch (err) {
-                console.error("Lỗi khi mở camera:", err);
-                alert("Không thể truy cập camera. Vui lòng cấp quyền và thử lại.");
+    // Dọn dẹp khi component unmount
+    useEffect(() => {
+        return () => {
+            if (recognitionIntervalRef.current) {
+                clearInterval(recognitionIntervalRef.current);
             }
-        }
-    };
+            if(videoRef.current && videoRef.current.srcObject) {
+                const stream = videoRef.current.srcObject;
+                stream.getTracks().forEach(track => track.stop());
+            }
+        };
+    }, []);
 
     const handleRecognition = useCallback(async () => {
-        if (!isCameraOn || !videoRef.current || !canvasRef.current) return;
+        if (isProcessing || !videoRef.current?.srcObject || !canvasRef.current) return;
 
-        const now = Date.now();
-        if (now - lastRecognitionTime < recognitionInterval) {
-            return;
-        }
-        setLastRecognitionTime(now);
-
+        setIsProcessing(true);
         const video = videoRef.current;
         const canvas = canvasRef.current;
-        const context = canvas.getContext('2d');
+        
+        if (video.videoWidth === 0 || video.videoHeight === 0) {
+            setIsProcessing(false);
+            return;
+        }
 
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
-
-        context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
-        
+        const context = canvas.getContext('2d');
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
         const imageDataUrl = canvas.toDataURL('image/jpeg');
 
         try {
+            // Đảm bảo tên trường khớp với schema: `image_base64`
             const payload = { image_base64: imageDataUrl };
-            const response = await axios.post('/recognize/', payload);
+            const response = await apiClient.post(`/sessions/${sessionId}/recognize/`, payload);
             
-            setRecognizedStudents(prevStudents => {
-                const currentStudentCodes = new Set(prevStudents.map(s => s.student_code));
-                const newStudents = response.data.filter(s => !currentStudentCodes.has(s.student_code));
-                return [...prevStudents, ...newStudents];
-            });
+            const recognizedLog = response.data;
+            // Chỉ hiển thị message thành công, không cần lặp lại tên
+            setMessage(`Đã nhận diện thành công!`);
+            onRecognitionSuccess(recognizedLog);
 
         } catch (error) {
-            console.error("Lỗi khi nhận diện:", error);
-        }
-
-    }, [isCameraOn, lastRecognitionTime]);
-
-
-    useEffect(() => {
-        let intervalId;
-        if (isCameraOn) {
-            intervalId = setInterval(() => {
-                handleRecognition();
-            }, 500); 
-        }
-        
-        return () => {
-            if (intervalId) {
-                clearInterval(intervalId);
+            // Không làm gì cả khi lỗi 404 (không tìm thấy khuôn mặt)
+            // vì đây là trường hợp bình thường
+            if (error.response && error.response.status !== 404) {
+                setMessage(`Lỗi: ${error.response.data.detail || 'Lỗi không xác định'}`);
             }
-        };
-    }, [isCameraOn, handleRecognition]);
+        } finally {
+            // Dừng xử lý sau khi hoàn thành, đợi vòng lặp tiếp theo
+            setIsProcessing(false);
+        }
+    }, [sessionId, isProcessing, onRecognitionSuccess]); // Dependency đã được rút gọn
+
+    const toggleCamera = useCallback(() => {
+        if (isCameraOn) {
+            // Tắt camera và dừng vòng lặp
+            if (recognitionIntervalRef.current) {
+                clearInterval(recognitionIntervalRef.current);
+                recognitionIntervalRef.current = null;
+            }
+            if(videoRef.current && videoRef.current.srcObject) {
+                const stream = videoRef.current.srcObject;
+                stream.getTracks().forEach(track => track.stop());
+                videoRef.current.srcObject = null;
+            }
+            setIsCameraOn(false);
+            setMessage('Sẵn sàng điểm danh.');
+        } else {
+            // Bật camera
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    if (videoRef.current) {
+                        videoRef.current.srcObject = stream;
+                        setIsCameraOn(true);
+                        setMessage('Camera đã bật. Tự động nhận diện...');
+                        // Bắt đầu vòng lặp nhận diện tự động
+                        recognitionIntervalRef.current = setInterval(handleRecognition, 3000); // 3 giây một lần
+                    }
+                })
+                .catch(err => {
+                    console.error("Lỗi camera:", err);
+                    alert("Không thể truy cập camera. Vui lòng cấp quyền và tải lại trang.");
+                });
+        }
+    }, [isCameraOn, handleRecognition]); // toggleCamera phụ thuộc vào isCameraOn và handleRecognition
 
     return (
-        <div className="attendance-container">
-            <h2>Điểm Danh</h2>
-            <div className="camera-controls">
+        <div className="panel-card">
+            <h2>Camera Điểm danh</h2>
+            <div className="panel-content">
+                <div className="video-container">
+                    <video 
+                        ref={videoRef} 
+                        autoPlay 
+                        playsInline 
+                        muted 
+                        style={{ transform: 'scaleX(-1)', display: isCameraOn ? 'block' : 'none' }}
+                    />
+                    {!isCameraOn && <div className="placeholder">Camera đang tắt</div>}
+                </div>
+                <canvas ref={canvasRef} style={{ display: 'none' }} />
+                
                 <button onClick={toggleCamera}>
-                    {isCameraOn ? 'Tắt Camera' : 'Mở Camera Điểm Danh'}
+                    {isCameraOn ? 'Tắt Camera' : 'Bắt đầu Điểm danh'}
                 </button>
-            </div>
-            
-            <div className="video-container">
-                <video 
-                    ref={videoRef} 
-                    autoPlay 
-                    playsInline 
-                    muted 
-                    style={{ width: '100%', display: isCameraOn ? 'block' : 'none' }}
-                />
-                {!isCameraOn && <div className="placeholder">Camera đang tắt</div>}
-            </div>
-
-            <canvas ref={canvasRef} style={{ display: 'none' }} />
-
-            <div className="recognized-list">
-                <h3>Danh sách đã điểm danh:</h3>
-                {recognizedStudents.length > 0 ? (
-                    <ul>
-                        {recognizedStudents.map(student => (
-                            <li key={student.student_code}>
-                                {student.full_name} - {student.student_code}
-                            </li>
-                        ))}
-                    </ul>
-                ) : (
-                    <p>Chưa có sinh viên nào được điểm danh.</p>
-                )}
+                <p className="message">{message}</p>
             </div>
         </div>
-    );
+        );
 }
 
 export default AttendanceTaker;

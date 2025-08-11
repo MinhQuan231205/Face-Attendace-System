@@ -1,190 +1,643 @@
-.App {
-  text-align: center;
-}
+/* ==========================================================================
+   1. GLOBAL STYLES & RESETS
+   ========================================================================== */
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+   *, *::before, *::after {
+    box-sizing: border-box;
 }
 
 body {
-  background-color: #f4f7f6;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  color: #333;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #f0f2f5;
+    color: #333;
 }
 
-.App {
-  max-width: 800px;
-  margin: 40px auto;
-  padding: 20px;
-  background-color: white;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+/* ==========================================================================
+   2. LAYOUT COMPONENTS
+   ========================================================================== */
+
+/* --- Navbar --- */
+.navbar {
+    background-color: #2c3e50;
+    padding: 0 40px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
 }
 
-.App-header {
-  text-align: center;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 20px;
-  margin-bottom: 20px;
+.navbar-title {
+    font-size: 1.5em;
+    margin: 0;
+    color: white;
+    text-decoration: none;
 }
 
-.form-container {
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin-top: 20px;
+.nav-links {
+  display: flex;
+  align-items: center;
 }
 
-.form-group {
-  margin-bottom: 15px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 5px;
-  font-weight: bold;
-}
-
-.form-group input {
-  width: 95%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-}
-
-button {
-  background-color: #007bff;
+.nav-link {
   color: white;
-  padding: 10px 15px;
+  text-decoration: none;
+  margin-left: 20px;
+  font-size: 1em;
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 12px; 
+}
+
+.user-icon {
+  color: #bdc3c7; 
+  width: 24px; 
+  height: 24px;
+}
+
+.user-email {
+  color: #ecf0f1;
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+.logout-btn {
+  background-color: #c0392b;
+  color: white;
   border: none;
-  border-radius: 4px;
-  font-size: 16px;
+  padding: 6px 12px;
+  border-radius: 5px;
   cursor: pointer;
+  font-size: 0.9em;
+  font-weight: 500;
   transition: background-color 0.2s;
+  width: auto;
+  margin: 0;
+}
+
+.logout-btn:hover {
+  background-color: #e74c3c;
+}
+
+/* --- Main Content Area --- */
+.app-content {
+    padding-top: 80px; /* (navbar height + spacing) */
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+/* ==========================================================================
+   3. PAGE-SPECIFIC STYLES
+   ========================================================================== */
+
+/* --- Login Page --- */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 50px;
+}
+
+.login-form {
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.login-form h2 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+/* Layout mới cho Student Dashboard */
+.student-dashboard-layout {
+  display: grid;
+  grid-template-columns: 350px 1fr; 
+  gap: 30px;
+}
+
+@media (max-width: 992px) {
+  .student-dashboard-layout {
+      grid-template-columns: 1fr;
+  }
+}
+
+.history-list-detailed {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.history-list-detailed li {
+  padding: 15px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.history-list-detailed li:last-child {
+  border-bottom: none;
+}
+
+.log-main-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.log-class-name {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.log-sub-info {
+  font-size: 0.9em;
+  color: #666;
+  padding-left: 27px; 
+  display: flex;
+  justify-content: space-between;
+}
+
+/* --- Admin & Teacher Dashboards (Shared Styles) --- */
+.admin-dashboard,
+.teacher-dashboard,
+.session-management-page,
+.class-detail-page,
+.report-page,
+.attendance-page {
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.page-header,
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.page-header h1,
+.dashboard-header h1,
+.dashboard-header h2 {
+    margin: 0;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.add-new-btn {
+  width: auto; /* Quan trọng: Không cho nút chiếm hết chiều rộng */
+  margin: 0; /* Xóa margin-top mặc định */
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* --- Class Detail & Report Pages --- */
+.member-management-layout,
+.report-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.report-details {
+    grid-template-columns: 1fr; /* Report page only has 1 column */
+}
+
+@media (max-width: 992px) {
+    .member-management-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.member-list-container,
+.report-section {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.member-list-container h3,
+.report-section h3 {
+    margin: 0;
+    padding: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.member-list,
+.report-section ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.member-list li,
+.report-section li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.member-list li:last-child,
+.report-section li:last-child {
+    border-bottom: none;
+}
+
+.report-summary {
+    background: #f4f6f8;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.report-summary p {
+    margin: 0 0 10px 0;
+}
+
+
+/* --- Teacher Dashboard --- */
+.class-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+}
+
+/* --- Attendance Page --- */
+.attendance-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+@media (max-width: 992px) {
+    .attendance-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+.session-timer {
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #d35400;
+}
+
+.session-controls {
+    text-align: center;
+    margin-top: 30px;
+}
+
+
+/* ==========================================================================
+   4. REUSABLE COMPONENTS
+   ========================================================================== */
+
+/* --- Buttons --- */
+button {
+    background-color: #3498db;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    width: 100%;
+    margin-top: 10px;
 }
 
 button:hover {
-  background-color: #0056b3;
+    background-color: #2980b9;
 }
 
 button:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
+    background-color: #bdc3c7;
+    cursor: not-allowed;
 }
 
-.message {
-  margin-top: 15px;
-  padding: 10px;
-  border-radius: 4px;
-  background-color: #e7f3fe;
-  border: 1px solid #b3d7ff;
-  color: #004085;
+.start-session-btn {
+    font-size: 16px;
+    width: auto;
+    margin: 0;
 }
 
-/* Thêm CSS cho thông báo lỗi */
-.message.error {
-  background-color: #f8d7da;
-  border-color: #f5c6cb;
-  color: #721c24;
+.start-session-btn,
+.resume-btn {
+    display: inline-block; /* Cần thiết cho cả button và Link */
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    /* Xóa các thuộc tính không cần thiết kế thừa từ button chung */
+    width: auto;
+    margin: 0;
 }
 
-.attendance-container {
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  margin-top: 20px;
+/* Định nghĩa màu nền riêng */
+.start-session-btn {
+    background-color: #3498db; /* Xanh dương */
+}
+.start-session-btn:hover {
+    background-color: #2980b9;
 }
 
-.camera-controls {
+.resume-btn {
+    background-color: #f39c12; /* Cam */
+}
+.resume-btn:hover {
+    background-color: #e67e22;
+}
+
+.end-session-btn {
+    background-color: #e74c3c;
+    padding: 12px 25px;
+    font-size: 1.1em;
+    width: auto;
+    margin: 0;
+}
+
+/* Action Buttons in Tables */
+td.action-buttons {
+  display: flex;
+  gap: 8px; 
+  align-items: center;
+}
+
+.action-buttons button,
+.action-buttons .action-link,
+.table-container .action-link { 
+  width: auto; 
+  margin: 0; 
+  padding: 6px 12px; 
+  font-size: 13px;
+  font-weight: 500;
+  
+  color: white;
+  text-decoration: none;
   text-align: center;
-  margin-bottom: 20px;
+  
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  
+  display: inline-block; 
+  transition: opacity 0.2s;
+}
+
+.action-buttons button:hover,
+.action-buttons .action-link:hover,
+.table-container .action-link:hover { 
+  opacity: 0.85;
+}
+
+.edit-btn { background-color: #3498db; }  
+.face-btn { background-color: #2ecc71; }  
+.delete-btn { background-color: #e74c3c; } 
+.view-btn { background-color: #f39c12; }  
+
+/* Action Buttons in Lists */
+
+.member-list button {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    margin: 0;
+    line-height: 30px;
+    font-size: 20px;
+    font-weight: bold;
+}
+.add-btn { background-color: #2ecc71; }
+.remove-btn { background-color: #e74c3c; }
+
+.report-edit-btn {
+    width: auto;
+    padding: 5px 12px;
+    font-size: 13px;
+    background-color: #3498db;
+    margin: 0;
+    margin-left: 15px;
+    flex-shrink: 0;
+}
+.report-edit-btn:hover { background-color: #2980b9; }
+
+/* --- Forms --- */
+.form-group {
+    margin-bottom: 15px;
+}
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: inherit;
+}
+.form-group textarea {
+    resize: vertical;
+}
+
+/* --- Modals --- */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+}
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+}
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+.modal-actions button {
+    width: auto;
+    margin: 0;
+}
+.save-btn { background-color: #2ecc71; }
+.cancel-btn { background-color: #95a5a6; }
+
+/* --- Tables --- */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+th {
+    background-color: #f4f6f8;
+    font-weight: bold;
+}
+
+/* --- Tabs --- */
+.tab-navigation {
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ddd;
+}
+.tab-button {
+    padding: 10px 20px;
+    margin: 0 10px 0 0;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 16px;
+    position: relative;
+    color: #555;
+    border-radius: 5px 5px 0 0;
+    bottom: -2px;
+    width: auto;
+}
+.tab-button.active {
+    background-color: white;
+    border: 2px solid #ddd;
+    border-bottom: 2px solid white;
+    font-weight: bold;
+    color: #007bff;
+}
+.tab-content {
+    padding: 20px;
+    background-color: white;
+    border: 2px solid #ddd;
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+}
+
+/* --- Cards --- */
+.panel-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+    margin-bottom: 20px;
+}
+.panel-card h2 {
+    margin: 0;
+    padding: 15px 20px;
+    background-color: #f4f6f8;
+    border-bottom: 1px solid #e8e8e8;
+    font-size: 1.1em;
+}
+.panel-content {
+    padding: 20px;
+}
+
+/* --- Status Badges & Chips --- */
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+.status-badge.ongoing { background-color: #e8f5e9; color: #2e7d32; }
+.status-badge.completed { background-color: #fce4ec; color: #ad1457; }
+.status-badge.expired { background-color: #ffe0b2; color: #e65100; }
+
+.summary-chip {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 16px;
+    font-size: 0.9em;
+    margin-right: 10px;
+    color: white;
+}
+.summary-chip.present { background-color: #2ecc71; }
+.summary-chip.late { background-color: #f39c12; }
+.summary-chip.absent { background-color: #95a5a6; }
+
+/* --- Other Components --- */
+.message,
+.error-message {
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 4px;
+    background-color: #e7f3fe;
+    border: 1px solid #b3d7ff;
+    color: #004085;
+}
+.error-message {
+    background-color: #fdd;
+    border-color: #e74c3c;
+    color: #721c24;
 }
 
 .video-container {
-  position: relative;
-  width: 100%;
-  max-width: 640px;
-  margin: 0 auto;
-  background-color: #000;
-  border: 1px solid #ccc;
-  min-height: 240px; /* Chiều cao tối thiểu để không bị xẹp khi tắt camera */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    width: 100%;
+    background-color: #000;
+    border-radius: 4px;
+    min-height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
 }
-
 .video-container video {
-  width: 100%;
-  height: auto;
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
 }
-
 .video-container .placeholder {
-  color: #999;
-  font-size: 1.2em;
-}
-
-.recognized-list {
-  margin-top: 20px;
-}
-
-.recognized-list h3 {
-  border-bottom: 1px solid #eee;
-  padding-bottom: 10px;
-}
-
-.recognized-list ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.recognized-list li {
-  padding: 8px 0;
-  border-bottom: 1px solid #f0f0f0;
-}
-
-.main-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* Chia 2 cột bằng nhau */
-  gap: 20px; /* Khoảng cách giữa 2 cột */
-}
-
-/* Responsive cho màn hình nhỏ */
-@media (max-width: 768px) {
-  .main-layout {
-    grid-template-columns: 1fr; /* Chuyển thành 1 cột */
-  }
+    color: #999;
 }

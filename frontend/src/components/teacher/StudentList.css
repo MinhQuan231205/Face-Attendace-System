@@ -1,0 +1,55 @@
+.student-list-wrapper {
+    padding: 0 !important;
+}
+.student-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 500px; /* Điều chỉnh chiều cao tối đa nếu cần */
+    overflow-y: auto;
+}
+.student-list li {
+    display: flex;
+    align-items: center;
+    padding: 12px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.3s;
+}
+
+/* Trạng thái */
+.student-list li.present { background-color: #e8f5e9; }
+.student-list li.late { background-color: #fff8e1; }
+.student-list li.absent { background-color: #fafafa; }
+
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+li.present .status-dot { background-color: #4caf50; } /* Xanh lá */
+li.late .status-dot { background-color: #ffb300; }    /* Vàng */
+li.absent .status-dot { background-color: #9e9e9e; }   /* Xám */
+
+.student-info {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+.student-name {
+    font-weight: 500;
+    color: #333;
+}
+.student-code {
+    font-size: 0.9em;
+    color: #757575;
+}
+.status-text {
+    font-size: 0.9em;
+    font-weight: bold;
+    margin-left: auto;
+}
+li.present .status-text { color: #2e7d32; }
+li.late .status-text { color: #e65100; }
+li.absent .status-text { color: #616161; }

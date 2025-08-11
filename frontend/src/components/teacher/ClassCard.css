@@ -1,0 +1,74 @@
+.class-card {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s ease-in-out;
+}
+
+.class-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid #f0f0f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-title {
+    margin: 0;
+    font-size: 1.2em;
+    color: #333;
+}
+
+.student-count {
+    background-color: #e7f3fe;
+    color: #004085;
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+.card-body {
+    padding: 20px;
+    flex-grow: 1; /* Đảm bảo body chiếm không gian còn lại */
+    color: #666;
+}
+
+.card-footer {
+    padding: 15px 20px;
+    background-color: #f9fafb;
+    border-top: 1px solid #f0f0f0;
+    text-align: right;
+
+    display: flex; /* Sắp xếp các nút */
+    justify-content: flex-end; /* Đẩy về bên phải */
+    gap: 10px; /* Khoảng cách giữa các nút */
+}
+
+.action-button {
+    background-color: #2ecc71;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.2s;
+}
+
+.action-button:hover {
+    background-color: #27ae60;
+}
+
+.action-button.secondary {
+    background-color: #7f8c8d; /* Màu xám */
+}
+
+.action-button.secondary:hover {
+    background-color: #6c7a7b;
+}

@@ -8,9 +8,8 @@ services:
       - POSTGRES_DB=face_attendance_db
     volumes:
       - postgres_data:/var/lib/postgresql/data
-   
     ports:
-      - "5432:5432"
+      - "5432:5432" 
 
   backend:
     build: ./backend
@@ -19,12 +18,12 @@ services:
       - ./backend/app:/app/app 
     depends_on:
       - db
-  
+
   frontend:
     build: ./frontend
     container_name: frontend_app
     ports:
-      - "80:80"
+      - "3000:80"
     depends_on:
       - backend
 

@@ -3,7 +3,15 @@ uvicorn[standard]
 python-multipart
 sqlalchemy
 psycopg2-binary
+
+# Các thư viện cho AI/ML
 dlib
 cmake
 face_recognition
 opencv-python-headless
+
+# Thư viện cho xác thực và bảo mật
+# Chúng ta sẽ cài bcrypt riêng để đảm bảo tương thích
+passlib
+bcrypt==3.2.0 
+python-jose[cryptography]
