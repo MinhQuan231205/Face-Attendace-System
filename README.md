@@ -47,8 +47,8 @@ Dự án được xây dựng là một Hệ thống Điểm danh Thông minh b�
 ## Hướng dẫn Khởi chạy hệ thống với Docker Hub
 
 **Liên kết đến các image:** 
-- **Backend:** [Xem trên Docker Hub](https://hub.docker.com/repository/docker/minhquan2312/face-attendance-system-backend/general)
-- **Frontend:** [Xem trên Docker Hub](https://hub.docker.com/repository/docker/minhquan2312/face-attendance-system-frontend/general)
+- **Backend:** [Xem trên Docker Hub](https://hub.docker.com/r/minhquan2312/face-attendance-system-frontend)
+- **Frontend:** [Xem trên Docker Hub](https://hub.docker.com/r/minhquan2312/face-attendance-system-backend)
 
 1.  **Tải về file `docker-compose.yml`:**
     - Tải về file [docker-compose.yml](./dockerhub/docker-compose.yml) này.
@@ -76,15 +76,44 @@ Dự án được xây dựng là một Hệ thống Điểm danh Thông minh b�
     - **Mật khẩu:** `adminpassword`
 
 2.  **Luồng làm việc cơ bản:**
-    - **Bước 1 (Admin):** Đăng nhập bằng tài khoản Admin.
-    - **Bước 2 (Admin):** Vào "Quản lý Người dùng" để tạo các tài khoản cho **Giáo viên** và **Sinh viên**.
-    - **Bước 3 (Admin):** Vào "Quản lý Lớp học", tạo một lớp học mới và gán một giáo viên phụ trách.
-    - **Bước 4 (Admin):** Vào trang "Chi tiết Lớp học" để thêm các sinh viên vào lớp.
-    - **Bước 5 (Admin):** Quay lại "Quản lý Người dùng" và **cập nhật ảnh khuôn mặt** cho từng sinh viên.
-    - **Bước 6 (Teacher):** Đăng xuất và đăng nhập bằng tài khoản Giáo viên.
-    - **Bước 7 (Teacher):** Trên Teacher Dashboard, chọn lớp học và vào "Quản lý Buổi học".
-    - **Bước 8 (Teacher):** Bắt đầu một buổi học mới, sau đó vào trang điểm danh và bật camera.
-    - **Bước 9 (Teacher):** Hệ thống sẽ tự động điểm danh cho các sinh viên có mặt trong lớp.
+    - Admin: Đăng nhập → Quản lý Người dùng → Tạo tài khoản Giáo viên & Sinh viên.
+    - Admin: Quản lý Lớp học → Tạo lớp mới → Gán giáo viên.
+    - Admin: Vào Chi tiết Lớp → Thêm sinh viên.
+    - Admin: Cập nhật ảnh khuôn mặt cho từng sinh viên.
+    - Teacher: Đăng nhập → Chọn lớp → Quản lý Buổi học.
+    - Teacher: Tạo buổi học mới → Mở trang điểm danh → Bật camera.
+    - Hệ thống: Tự động nhận diện & điểm danh sinh viên có mặt.
 
+## Cấu trúc dự án
 
-
+```
+face-recognition-attendance/
+├── backend/
+│   ├── app/               # Logic chính của FastAPI
+│   │   ├── __init__.py
+│   │   ├── crud.py         # CRUD với DB
+│   │   ├── database.py     # Kết nối SQLAlchemy
+│   │   ├── main.py         # API endpoints
+│   │   ├── models.py       # Models DB
+│   │   ├── schemas.py      # Pydantic schemas
+│   │   └── security.py     # Xác thực & phân quyền
+│   ├── Dockerfile          # Build image backend
+│   └── requirements.txt    # Thư viện Python
+│
+├── frontend/
+│   ├── public/             # index.html & file tĩnh
+│   ├── src/                # Mã nguồn React
+│   │   ├── api/            # Axios config
+│   │   ├── components/     # Component tái sử dụng
+│   │   ├── context/        # AuthContext
+│   │   ├── pages/          # Các trang
+│   │   ├── App.js          # Routing
+│   │   └── index.js        # Entry point React
+│   ├── Dockerfile          # Build image frontend
+│   ├── nginx.conf          # Config Nginx
+│   └── package.json        # Script & dependencies JS
+│
+├── .gitignore              # Bỏ qua file/thư mục trong Git
+├── docker-compose.yml      # Chạy toàn bộ hệ thống
+└── README.md               # Hướng dẫn dự án
+```
