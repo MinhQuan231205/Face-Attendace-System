@@ -19,7 +19,7 @@ Dự án được xây dựng là một Hệ thống Điểm danh Thông minh b�
 
 ## Hướng dẫn khởi chạy hệ thống 
 
-**Với Clone repository**
+**Với Clone repository:**
 
 1.  **Clone repository:**
     ```bash
@@ -45,7 +45,7 @@ Dự án được xây dựng là một Hệ thống Điểm danh Thông minh b�
       docker-compose down -v
       ```
 
-**Với Docker Hub**
+**Với Docker Hub:**
 
 - **Liên kết đến các image:** 
     - **Backend:** [Xem trên Docker Hub](https://hub.docker.com/r/minhquan2312/face-attendance-system-backend)
