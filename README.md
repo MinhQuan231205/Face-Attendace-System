@@ -43,7 +43,7 @@ Dự án được xây dựng là một Hệ thống Điểm danh Thông minh b�
 
 ## Hướng dẫn Khởi chạy hệ thống với Docker Hub
 1.  **Tải về file `docker-compose.yml`:**
-    - Tải về file [docker-compose.yml](./test/docker-compose.yml) này.
+    - Tải về file [docker-compose.yml](./dockerhub/docker-compose.yml) này.
 
 3.  **Khởi chạy hệ thống:**
     - Mở terminal trong thư mục chứa file `docker-compose.yml`.
@@ -59,8 +59,6 @@ Dự án được xây dựng là một Hệ thống Điểm danh Thông minh b�
     ```bash
     docker-compose down -v
     ```
-
-
 
 ## Hướng dẫn Sử dụng
 
@@ -78,7 +76,7 @@ Dự án được xây dựng là một Hệ thống Điểm danh Thông minh b�
     - **Bước 6 (Teacher):** Đăng xuất và đăng nhập bằng tài khoản Giáo viên.
     - **Bước 7 (Teacher):** Trên Teacher Dashboard, chọn lớp học và vào "Quản lý Buổi học".
     - **Bước 8 (Teacher):** Bắt đầu một buổi học mới, sau đó vào trang điểm danh và bật camera.
-    - **Bước 9 (Teacher):** Hệ thống sẽ tự động điểm danh cho các sinh viên có mặt trong lớp và ghi lại lịch sử.
+    - **Bước 9 (Teacher):** Hệ thống sẽ tự động điểm danh cho các sinh viên có mặt trong lớp.
 
 
 
