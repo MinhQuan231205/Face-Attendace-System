@@ -15,7 +15,7 @@ Nguyễn Trần Huy - 23020378
 Dự án được xây dựng là một Hệ thống Điểm danh Thông minh bằng cách ứng dụng công nghệ nhận diện khuôn mặt. Hệ thống hướng đến việc tự động hóa hoàn toàn quy trình điểm danh, cung cấp dữ liệu chính xác và tức thì về sự hiện diện của sinh viên, từ đó giúp giáo viên giảm bớt các công việc thủ công liên quan và cung cấp cho ban quản lý một công cụ mạnh mẽ để theo dõi và phân tích dữ liệu chuyên cần.
 
 ## Yêu cầu
-- [Docker](https://www.docker.com/get-started) và [Docker Compose](https://docs.docker.com/compose/install/) đã được cài đặt.
+[Docker](https://www.docker.com/get-started) và [Docker Compose](https://docs.docker.com/compose/install/) đã được cài đặt.
 
 ## Hướng dẫn khởi chạy hệ thống với Clone repository
 
