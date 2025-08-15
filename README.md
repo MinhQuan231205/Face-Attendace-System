@@ -47,8 +47,8 @@ Dự án được xây dựng là một Hệ thống Điểm danh Thông minh b�
 ## Hướng dẫn Khởi chạy hệ thống với Docker Hub
 
 **Liên kết đến các image:** 
-- **Backend:** [Xem trên Docker Hub](https://hub.docker.com/r/minhquan23125/face-attendance-system-backend)
-- **Frontend:** [Xem trên Docker Hub](https://hub.docker.com/r/minhquan23125/face-attendance-system-frontend)
+- **Backend:** [Xem trên Docker Hub](https://hub.docker.com/repository/docker/minhquan2312/face-attendance-system-backend/general)
+- **Frontend:** [Xem trên Docker Hub](https://hub.docker.com/repository/docker/minhquan2312/face-attendance-system-frontend/general)
 
 1.  **Tải về file `docker-compose.yml`:**
     - Tải về file [docker-compose.yml](./dockerhub/docker-compose.yml) này.
