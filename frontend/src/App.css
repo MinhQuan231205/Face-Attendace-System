@@ -1,7 +1,4 @@
-/* ==========================================================================
-   1. GLOBAL STYLES & RESETS
-   ========================================================================== */
-
+/* Global styles and resets */
    *, *::before, *::after {
     box-sizing: border-box;
 }
@@ -17,11 +14,9 @@ body {
     color: #333;
 }
 
-/* ==========================================================================
-   2. LAYOUT COMPONENTS
-   ========================================================================== */
+/* Layout components */
 
-/* --- Navbar --- */
+/* Navbar */
 .navbar {
     background-color: #2c3e50;
     padding: 0 40px;
@@ -93,18 +88,16 @@ body {
   background-color: #e74c3c;
 }
 
-/* --- Main Content Area --- */
+/* Main content area */
 .app-content {
-    padding-top: 80px; /* (navbar height + spacing) */
+    padding-top: 80px; 
     padding-left: 20px;
     padding-right: 20px;
 }
 
-/* ==========================================================================
-   3. PAGE-SPECIFIC STYLES
-   ========================================================================== */
+/* Page-specific styles */
 
-/* --- Login Page --- */
+/* Login page */
 .login-container {
     display: flex;
     justify-content: center;
@@ -127,7 +120,7 @@ body {
     margin-bottom: 30px;
 }
 
-/* Layout mới cho Student Dashboard */
+/* Student dashboard */
 .student-dashboard-layout {
   display: grid;
   grid-template-columns: 350px 1fr; 
@@ -175,7 +168,7 @@ body {
   justify-content: space-between;
 }
 
-/* --- Admin & Teacher Dashboards (Shared Styles) --- */
+/* Admin & Teacher dashboards */
 .admin-dashboard,
 .teacher-dashboard,
 .session-management-page,
@@ -209,14 +202,14 @@ body {
 }
 
 .add-new-btn {
-  width: auto; /* Quan trọng: Không cho nút chiếm hết chiều rộng */
-  margin: 0; /* Xóa margin-top mặc định */
+  width: auto; 
+  margin: 0; 
   padding: 8px 16px;
   font-size: 14px;
   font-weight: 500;
 }
 
-/* --- Class Detail & Report Pages --- */
+/* Class detail and Report pages */
 .member-management-layout,
 .report-details {
     display: grid;
@@ -226,7 +219,7 @@ body {
 }
 
 .report-details {
-    grid-template-columns: 1fr; /* Report page only has 1 column */
+    grid-template-columns: 1fr; 
 }
 
 @media (max-width: 992px) {
@@ -284,7 +277,7 @@ body {
 }
 
 
-/* --- Teacher Dashboard --- */
+/* Teacher dashboard */
 .class-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -292,7 +285,7 @@ body {
     margin-top: 20px;
 }
 
-/* --- Attendance Page --- */
+/* Attendance page */
 .attendance-layout {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -320,11 +313,9 @@ body {
 }
 
 
-/* ==========================================================================
-   4. REUSABLE COMPONENTS
-   ========================================================================== */
+/* Reusable components */
 
-/* --- Buttons --- */
+/* Buttons */
 button {
     background-color: #3498db;
     color: white;
@@ -355,7 +346,7 @@ button:disabled {
 
 .start-session-btn,
 .resume-btn {
-    display: inline-block; /* Cần thiết cho cả button và Link */
+    display: inline-block; 
     padding: 10px 20px;
     font-size: 16px;
     font-weight: 500;
@@ -365,22 +356,19 @@ button:disabled {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.2s;
-
-    /* Xóa các thuộc tính không cần thiết kế thừa từ button chung */
     width: auto;
     margin: 0;
 }
 
-/* Định nghĩa màu nền riêng */
 .start-session-btn {
-    background-color: #3498db; /* Xanh dương */
+    background-color: #3498db; 
 }
 .start-session-btn:hover {
     background-color: #2980b9;
 }
 
 .resume-btn {
-    background-color: #f39c12; /* Cam */
+    background-color: #f39c12; 
 }
 .resume-btn:hover {
     background-color: #e67e22;
@@ -394,7 +382,7 @@ button:disabled {
     margin: 0;
 }
 
-/* Action Buttons in Tables */
+/* Action buttons in tables */
 td.action-buttons {
   display: flex;
   gap: 8px; 
@@ -433,7 +421,7 @@ td.action-buttons {
 .delete-btn { background-color: #e74c3c; } 
 .view-btn { background-color: #f39c12; }  
 
-/* Action Buttons in Lists */
+/* Action buttons in lists */
 
 .member-list button {
     width: 30px;
@@ -458,7 +446,7 @@ td.action-buttons {
 }
 .report-edit-btn:hover { background-color: #2980b9; }
 
-/* --- Forms --- */
+/* Forms */
 .form-group {
     margin-bottom: 15px;
 }
@@ -481,7 +469,7 @@ td.action-buttons {
     resize: vertical;
 }
 
-/* --- Modals --- */
+/* Modals */
 .modal-overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -511,7 +499,7 @@ td.action-buttons {
 .save-btn { background-color: #2ecc71; }
 .cancel-btn { background-color: #95a5a6; }
 
-/* --- Tables --- */
+/* Tables */
 .table-container {
     width: 100%;
     overflow-x: auto;
@@ -532,7 +520,7 @@ th {
     font-weight: bold;
 }
 
-/* --- Tabs --- */
+/* Tabs */
 .tab-navigation {
     margin-bottom: 20px;
     border-bottom: 2px solid #ddd;
@@ -565,7 +553,7 @@ th {
     border-radius: 0 0 5px 5px;
 }
 
-/* --- Cards --- */
+/* Cards */
 .panel-card {
     background: #fff;
     border-radius: 8px;
@@ -583,7 +571,7 @@ th {
     padding: 20px;
 }
 
-/* --- Status Badges & Chips --- */
+/* Status badges and Chips */
 .status-badge {
     padding: 4px 8px;
     border-radius: 12px;
@@ -607,7 +595,7 @@ th {
 .summary-chip.late { background-color: #f39c12; }
 .summary-chip.absent { background-color: #95a5a6; }
 
-/* --- Other Components --- */
+/* Other components */
 .message,
 .error-message {
     margin-top: 15px;

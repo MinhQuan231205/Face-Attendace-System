@@ -2,17 +2,15 @@ import React from 'react';
 import './StudentList.css';
 
 function StudentList({ students, attendedStudentLogs }) {
-    // Sửa lại cách tính `presentCount` để chỉ đếm 'present' và 'late'
     const presentCount = Object.values(attendedStudentLogs).filter(
         log => log.status === 'present' || log.status === 'late'
     ).length;
     const totalCount = students.length;
 
-    // Một hàm nhỏ để dịch status sang tiếng Việt và trả về class CSS
     const getStatusInfo = (status) => {
         switch (status) {
             case 'present':
-            case 'late': // <-- Gộp 'late' vào 'present'
+            case 'late': 
                 return { text: 'Có mặt', className: 'present' };
             case 'absent':
                 return { text: 'Vắng mặt', className: 'absent' };
@@ -23,7 +21,6 @@ function StudentList({ students, attendedStudentLogs }) {
 
     return (
         <div className="panel-card">
-            {/* Tiêu đề giờ sẽ hiển thị số lượng chính xác hơn */}
             <h2>Danh sách lớp ({presentCount}/{totalCount} có mặt)</h2>
             <div className="panel-content student-list-wrapper">
                 <ul className="student-list">

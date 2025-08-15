@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 function StartSessionModal({ isOpen, onClose, onStart }) {
-    const [duration, setDuration] = useState(45); // Mặc định là 45 phút
+    const [duration, setDuration] = useState(45); 
 
     const handleSubmit = (e) => {
         e.preventDefault();

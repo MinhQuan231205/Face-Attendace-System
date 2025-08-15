@@ -10,7 +10,6 @@ function TeacherDashboardPage() {
     useEffect(() => {
         const fetchTaughtClasses = async () => {
             try {
-                // Gọi API để lấy các lớp mà giáo viên này dạy
                 const response = await apiClient.get('/teachers/me/classes/');
                 setClasses(response.data);
             } catch (err) {

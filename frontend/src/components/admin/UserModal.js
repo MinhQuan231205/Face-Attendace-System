@@ -9,18 +9,16 @@ function UserModal({ isOpen, onClose, onSave, user }) {
         role: 'student',
     });
 
-    // useEffect để điền dữ liệu vào form khi ở chế độ "sửa"
     useEffect(() => {
         if (user) {
             setFormData({
                 full_name: user.full_name || '',
                 email: user.email || '',
                 student_code: user.student_code || '',
-                password: '', // Không hiển thị password cũ
+                password: '', 
                 role: user.role || 'student',
             });
         } else {
-            // Reset form khi ở chế độ "tạo mới"
             setFormData({
                 full_name: '', email: '', student_code: '', password: '', role: 'student',
             });
@@ -35,12 +33,12 @@ function UserModal({ isOpen, onClose, onSave, user }) {
     const handleSubmit = (e) => {
         if (formData.role === 'student' && !formData.student_code) {
             alert('Mã số sinh viên là bắt buộc đối với vai trò "Student".');
-            return; // Dừng việc submit nếu không hợp lệ
+            return; 
         }
         e.preventDefault();
         const dataToSave = { ...formData };
         if (!dataToSave.student_code) {
-            dataToSave.student_code = null; // Gửi null thay vì chuỗi rỗng
+            dataToSave.student_code = null; 
         }
         onSave(dataToSave);
     };
@@ -52,7 +50,6 @@ function UserModal({ isOpen, onClose, onSave, user }) {
             <div className="modal-content">
                 <h2>{user ? 'Sửa thông tin người dùng' : 'Thêm người dùng mới'}</h2>
                 <form onSubmit={handleSubmit}>
-                    {/* Các trường input tương tự form đăng nhập */}
                     <div className="form-group">
                         <label>Họ và tên</label>
                         <input type="text" name="full_name" value={formData.full_name} onChange={handleChange} required />

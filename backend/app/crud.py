@@ -6,9 +6,7 @@ import io
 from datetime import datetime, timedelta, timezone
 from typing import Optional
 
-# ==================================
-# === CRUD cho User (Người dùng) ===
-# ==================================
+# CRUD cho User (Người dùng)
 
 def get_user_by_id(db: Session, user_id: int):
     """Tìm kiếm user dựa trên ID."""
@@ -83,9 +81,7 @@ def delete_user_by_id(db: Session, user_id: int):
         return db_user
     return None
 
-# ======================================
-# === CRUD cho AttendanceLog (Log Điểm danh) ===
-# ======================================
+# CRUD cho AttendanceLog (log điểm danh)
 
 def create_attendance_log(db: Session, user_id: int, status: str = "present"):
     """Tạo một bản ghi điểm danh mới cho user."""
@@ -103,9 +99,7 @@ def get_all_attendance_logs(db: Session):
     """Lấy toàn bộ log điểm danh trong hệ thống (dùng cho Admin)."""
     return db.query(models.AttendanceLog).order_by(models.AttendanceLog.timestamp.desc()).all()
 
-# ======================================
-# === CRUD cho Class (Lớp học) ===
-# ======================================
+# CRUD cho Class (Lớp học)
 
 def get_class_by_id(db: Session, class_id: int):
     """Lấy thông tin một lớp học bằng ID."""
@@ -132,17 +126,14 @@ def update_class(db: Session, class_id: int, class_update: schemas.ClassCreate):
     if not db_class:
         return None, "Class not found"
 
-    # Kiểm tra giáo viên mới nếu có
     if class_update.teacher_id != db_class.teacher_id:
         new_teacher = get_user_by_id(db, user_id=class_update.teacher_id)
         if not new_teacher or new_teacher.role != 'teacher':
             return None, "Invalid new teacher ID"
     
-    # Cập nhật dữ liệu
     db_class.name = class_update.name
     db_class.description = class_update.description
     db_class.teacher_id = class_update.teacher_id
-    
     db.commit()
     db.refresh(db_class)
     return db_class, "Class updated successfully"
@@ -151,8 +142,6 @@ def delete_class_by_id(db: Session, class_id: int):
     """Xóa một lớp học."""
     db_class = get_class_by_id(db, class_id)
     if db_class:
-        # Lưu ý: Mối quan hệ trong class_members sẽ tự động bị xóa
-        # vì SQLAlchemy quản lý nó.
         db.delete(db_class)
         db.commit()
         return db_class
@@ -178,10 +167,6 @@ def remove_student_from_class(db: Session, class_id: int, user_id: int):
         return db_class
     return None
 
-# =======================================================
-# === HÀM MỚI CHO BƯỚC 1.3 (LOGIC CỦA GIÁO VIÊN) ===
-# =======================================================
-
 def get_classes_by_teacher(db: Session, teacher_id: int):
     """Lấy danh sách các lớp học do một giáo viên phụ trách."""
     return db.query(models.Class).filter(models.Class.teacher_id == teacher_id).all()
@@ -193,9 +178,7 @@ def get_students_in_class(db: Session, class_id: int):
         return db_class.students
     return []
 
-# =======================================================
-# === HÀM ĐIỂM DANH MỚI (LOGIC CỐT LÕI CỦA BƯỚC 1.3) ===
-# =======================================================
+# Hàm điểm danh
 def recognize_and_create_log_for_session(db: Session, session_id: int, image_data: bytes):
     """
     Nhận diện khuôn mặt và tạo log điểm danh cho một buổi học cụ thể.
@@ -221,8 +204,6 @@ def recognize_and_create_log_for_session(db: Session, session_id: int, image_dat
 
     recognized_user = None
     for face_encoding in unknown_face_encodings:
-        # Kiểm tra xem khuôn mặt này đã được điểm danh trong session này chưa
-        # Đây là một tối ưu hóa quan trọng để tránh ghi log trùng lặp
         matches = face_recognition.compare_faces(known_face_encodings, face_encoding, tolerance=0.5)
         if True in matches:
             best_match_index = np.argmin(face_recognition.face_distance(known_face_encodings, face_encoding))
@@ -230,23 +211,18 @@ def recognize_and_create_log_for_session(db: Session, session_id: int, image_dat
                 student_with_encoding_list = [s for s in students_in_class if s.face_encoding]
                 potential_user = student_with_encoding_list[best_match_index]
                 
-                # Kiểm tra xem user này đã có log trong session chưa
                 existing_log = db.query(models.AttendanceLog).filter_by(session_id=session_id, user_id=potential_user.id).first()
                 if not existing_log:
                     recognized_user = potential_user
-                    break # Tìm thấy người hợp lệ, thoát vòng lặp
+                    break 
 
     if recognized_user:
-        # Bất kỳ ai được nhận diện đều được tính là "Có mặt"
         status = "present"
-        
-        # Tạo bản ghi log mới
         new_log = create_attendance_log(db, user_id=recognized_user.id, session_id=session_id, status=status)
         return new_log, f"Successfully logged {status}"
     
     return None, "Face not recognized or student already logged"
 
-# Cần cập nhật hàm create_attendance_log để nhận thêm session_id và status
 def create_attendance_log(db: Session, user_id: int, session_id: int, status: str):
     """Tạo một bản ghi điểm danh mới cho user trong một session."""
     new_log = models.AttendanceLog(user_id=user_id, session_id=session_id, status=status)
@@ -257,31 +233,23 @@ def create_attendance_log(db: Session, user_id: int, session_id: int, status: st
 
 def get_attendance_logs_for_class(db: Session, class_id: int, start_date: Optional[datetime] = None, end_date: Optional[datetime] = None):
     """
-    Lấy lịch sử điểm danh cho tất cả sinh viên trong một lớp,
-    có thể lọc theo khoảng thời gian.
+    Lấy lịch sử điểm danh cho tất cả sinh viên trong một lớp.
     """
-    # Lấy danh sách ID của các sinh viên trong lớp
     students_in_class = get_students_in_class(db, class_id)
     if not students_in_class:
         return []
     
     student_ids = [student.id for student in students_in_class]
     
-    # Bắt đầu câu truy vấn, lọc theo các ID sinh viên tìm được
     query = db.query(models.AttendanceLog).filter(models.AttendanceLog.user_id.in_(student_ids))
     
-    # Áp dụng bộ lọc ngày bắt đầu nếu có
     if start_date:
         query = query.filter(models.AttendanceLog.timestamp >= start_date)
     
-    # Áp dụng bộ lọc ngày kết thúc nếu có
     if end_date:
-        # Cộng thêm 1 ngày để bao gồm tất cả các bản ghi trong ngày kết thúc
-        # (vì timestamp so sánh nhỏ hơn)
         end_date_inclusive = end_date + timedelta(days=1)
         query = query.filter(models.AttendanceLog.timestamp < end_date_inclusive)
         
-    # Sắp xếp kết quả theo thời gian mới nhất lên đầu và trả về
     return query.order_by(models.AttendanceLog.timestamp.desc()).all()
 
 def get_attendance_log_by_id(db: Session, log_id: int):
@@ -297,9 +265,7 @@ def update_attendance_log_status(db: Session, log_id: int, new_status: str):
         db.refresh(db_log)
     return db_log
 
-# ==============================================================================
 # CRUD cho AttendanceSession
-# ==============================================================================
 
 def create_attendance_session(db: Session, class_id: int, duration_minutes: int):
     """Tạo một buổi điểm danh mới."""
@@ -329,7 +295,6 @@ def end_attendance_session(db: Session, session_id: int):
 
     db_session.status = 'completed'
     
-    # Logic tự động ghi nhận "vắng mặt"
     students_in_class = db_session.class_obj.students
     attended_student_ids = {log.user_id for log in db_session.logs}
     
@@ -339,7 +304,6 @@ def end_attendance_session(db: Session, session_id: int):
                 user_id=student.id,
                 session_id=session_id,
                 status='absent',
-                # timestamp có thể là thời điểm kết thúc session
                 timestamp=datetime.now(timezone.utc) 
             )
             db.add(absent_log)
@@ -352,30 +316,25 @@ def get_sessions_for_class(db: Session, class_id: int):
     """Lấy tất cả các buổi điểm danh của một lớp."""
     return db.query(models.AttendanceSession).filter(models.AttendanceSession.class_id == class_id).order_by(models.AttendanceSession.start_time.desc()).all()
 
-# trong crud.py
 def update_or_create_log_for_student(db: Session, session_id: int, user_id: int, new_status: str):
-    # Kiểm tra session và user có tồn tại không
     db_session = get_session_by_id(db, session_id=session_id)
     db_user = get_user_by_id(db, user_id=user_id)
     if not db_session or not db_user:
         return None
 
-    # Tìm log đã có của sinh viên này trong session này
     existing_log = db.query(models.AttendanceLog).filter_by(session_id=session_id, user_id=user_id).first()
 
     if existing_log:
-        # Nếu đã có, chỉ cập nhật status
         existing_log.status = new_status
         db.commit()
         db.refresh(existing_log)
         return existing_log
     else:
-        # Nếu chưa có, tạo một log mới
         new_log = models.AttendanceLog(
             user_id=user_id,
             session_id=session_id,
             status=new_status,
-            timestamp=datetime.now(timezone.utc) # Ghi nhận thời điểm cập nhật
+            timestamp=datetime.now(timezone.utc) 
         )
         db.add(new_log)
         db.commit()

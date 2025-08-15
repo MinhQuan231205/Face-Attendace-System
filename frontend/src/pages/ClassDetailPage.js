@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import apiClient from '../api/axios';
 
 function ClassDetailPage() {
-    const { classId } = useParams(); // Lấy classId từ URL
+    const { classId } = useParams(); 
     const [classDetails, setClassDetails] = useState(null);
     const [allStudents, setAllStudents] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -12,14 +12,12 @@ function ClassDetailPage() {
     const fetchData = useCallback(async () => {
         setIsLoading(true);
         try {
-            // Lấy cả chi tiết lớp và toàn bộ danh sách user cùng lúc
             const [classRes, usersRes] = await Promise.all([
                 apiClient.get(`/classes/${classId}`),
                 apiClient.get('/users/')
             ]);
 
             setClassDetails(classRes.data);
-            // Lọc ra những user là student
             setAllStudents(usersRes.data.filter(u => u.role === 'student'));
             setError('');
         } catch (err) {
@@ -37,7 +35,7 @@ function ClassDetailPage() {
     const handleAddStudent = async (studentId) => {
         try {
             await apiClient.post(`/classes/${classId}/students/${studentId}`);
-            fetchData(); // Tải lại dữ liệu để cập nhật danh sách
+            fetchData(); 
         } catch (err) {
             alert('Thêm sinh viên thất bại.');
         }
@@ -46,7 +44,7 @@ function ClassDetailPage() {
     const handleRemoveStudent = async (studentId) => {
         try {
             await apiClient.delete(`/classes/${classId}/students/${studentId}`);
-            fetchData(); // Tải lại dữ liệu để cập nhật danh sách
+            fetchData(); 
         } catch (err) {
             alert('Xóa sinh viên thất bại.');
         }
@@ -67,7 +65,6 @@ function ClassDetailPage() {
             <p><strong>Mô tả:</strong> {classDetails.description || 'Không có'}</p>
 
             <div className="member-management-layout">
-                {/* Cột sinh viên trong lớp */}
                 <div className="member-list-container">
                     <h3>Sinh viên trong lớp ({classDetails.students.length})</h3>
                     <ul className="member-list">
@@ -79,8 +76,6 @@ function ClassDetailPage() {
                         ))}
                     </ul>
                 </div>
-
-                {/* Cột sinh viên chưa có trong lớp */}
                 <div className="member-list-container">
                     <h3>Sinh viên chưa có trong lớp ({studentsNotInClass.length})</h3>
                     <ul className="member-list">

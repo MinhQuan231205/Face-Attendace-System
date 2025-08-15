@@ -1,15 +1,15 @@
-import React, { useState, useContext } from 'react'; // Thêm useContext
+import React, { useState, useContext } from 'react'; 
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
-import apiClient from '../api/axios.js'; // <-- Sửa đường dẫn nếu cần
-import { AuthContext } from '../context/AuthContext'; // <-- IMPORT AUTHCONTEXT
+import apiClient from '../api/axios.js'; 
+import { AuthContext } from '../context/AuthContext'; 
 
 function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
-    const { login } = useContext(AuthContext); // Lấy hàm login từ context
+    const { login } = useContext(AuthContext); 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -21,7 +21,6 @@ function LoginPage() {
         params.append('password', password);
 
         try {
-            // Dùng apiClient thay vì axios
             const response = await apiClient.post('/token', params, {
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -30,10 +29,8 @@ function LoginPage() {
 
             const { access_token } = response.data;
             
-            // Dùng hàm login từ context để cập nhật trạng thái toàn cục và lưu token
             login(access_token); 
             
-            // Giải mã token để điều hướng
             const decodedToken = jwtDecode(access_token);
             if (decodedToken.role === 'admin') {
                 navigate('/admin/dashboard');
@@ -52,7 +49,6 @@ function LoginPage() {
         }
     };
 
-    // ... (phần JSX của form giữ nguyên)
     return (
         <div className="login-container">
             <form className="login-form" onSubmit={handleSubmit}>

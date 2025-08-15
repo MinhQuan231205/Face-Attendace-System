@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import apiClient from '../api/axios';
-import StartSessionModal from '../components/teacher/StartSessionModal'; // Sẽ tạo
+import StartSessionModal from '../components/teacher/StartSessionModal'; 
 
 function SessionManagementPage() {
     const { classId } = useParams();
@@ -39,7 +39,6 @@ function SessionManagementPage() {
             });
             const newSession = response.data;
             setIsModalOpen(false);
-            // Điều hướng đến trang điểm danh của session vừa tạo
             navigate(`/teacher/session/${newSession.id}/attendance`);
         } catch (err) {
             alert('Không thể bắt đầu buổi học. Vui lòng thử lại.');
@@ -55,7 +54,6 @@ function SessionManagementPage() {
             <div className="page-header">
                 <h1>Quản lý Buổi học: {className}</h1>
                 {ongoingSession ? (
-                    // Nếu có session đang diễn ra, hiển thị nút "Tiếp tục"
                     <Link 
                         to={`/teacher/session/${ongoingSession.id}/attendance`} 
                         className="start-session-btn resume-btn"
@@ -63,7 +61,6 @@ function SessionManagementPage() {
                         Tiếp tục Điểm danh (Buổi {ongoingSession.id})
                     </Link>
                 ) : (
-                // Nếu không, hiển thị nút "Bắt đầu mới"
                     <button onClick={() => setIsModalOpen(true)} className="start-session-btn">
                         Bắt đầu Buổi học mới
                     </button>
@@ -84,17 +81,14 @@ function SessionManagementPage() {
                     </thead>
                     <tbody>
                         {sessions.length > 0 ? sessions.map(session => {
-                            // --- LOGIC MỚI ĐỂ XÁC ĐỊNH TRẠNG THÁI HIỂN THỊ ---
                             let displayStatus = session.status;
                             let statusClassName = session.status;
                             const endTime = new Date(session.end_time);
 
-                            // Nếu trạng thái trong DB là 'ongoing' nhưng thời gian hiện tại đã vượt qua thời gian kết thúc
                             if (session.status === 'ongoing' && new Date() > endTime) {
-                                displayStatus = 'expired'; // Trạng thái "ảo" để hiển thị
-                                statusClassName = 'expired'; // Class CSS tương ứng
+                                displayStatus = 'expired'; 
+                                statusClassName = 'expired'; 
                             }
-                            // --- KẾT THÚC LOGIC MỚI ---
 
                             return (
                                 <tr key={session.id}>
@@ -102,7 +96,6 @@ function SessionManagementPage() {
                                     <td>{new Date(session.start_time).toLocaleString('vi-VN')}</td>
                                     <td>{endTime.toLocaleString('vi-VN')}</td>
                                     <td>
-                                        {/* Sử dụng các biến mới để hiển thị */}
                                         <span className={`status-badge ${statusClassName}`}>
                                             {displayStatus}
                                         </span>

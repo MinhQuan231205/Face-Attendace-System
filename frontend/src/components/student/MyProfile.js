@@ -11,7 +11,6 @@ function MyProfile({ user }) {
                 <p><strong>Email:</strong> {user.email}</p>
                 <p><strong>Mã sinh viên:</strong> {user.student_code || 'N/A'}</p>
                 <p><strong>Vai trò:</strong> {user.role}</p>
-                {/* KHÔNG CÓ BẤT KỲ LOGIC CAMERA HAY ĐIỂM DANH NÀO Ở ĐÂY */}
             </div>
         </div>
     );

@@ -11,11 +11,8 @@ function MyAttendanceHistory({ logs }) {
                 return { text: 'Không rõ', className: 'absent' };
         }
     };
-
-    // Hàm format thời gian cho đẹp
     const formatTime = (dateString) => new Date(dateString).toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
     const formatDate = (dateString) => new Date(dateString).toLocaleDateString('vi-VN');
-
     return (
         <div className="panel-card">
             <h2>Lịch sử điểm danh</h2>

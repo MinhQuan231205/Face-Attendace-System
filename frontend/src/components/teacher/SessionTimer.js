@@ -28,12 +28,12 @@ function SessionTimer({ endTime, onEnd }) {
 
             if (Object.keys(newTimeLeft).length === 0 && !isEnded) {
                 setIsEnded(true);
-                onEnd(); // Tự động gọi hàm onEnd khi hết giờ
+                onEnd();
             }
         }, 1000);
 
         return () => clearTimeout(timer);
-    }); // Bỏ dependency array để timer luôn cập nhật
+    }); 
 
     const hasTimeLeft = Object.keys(timeLeft).length > 0;
 

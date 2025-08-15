@@ -9,14 +9,12 @@ function ClassModal({ isOpen, onClose, onSave, classData, teachers }) {
 
     useEffect(() => {
         if (classData) {
-            // Chế độ "Sửa"
             setFormData({
                 name: classData.name || '',
                 description: classData.description || '',
                 teacher_id: classData.teacher?.id || '',
             });
         } else {
-            // Chế độ "Tạo mới"
             setFormData({ name: '', description: '', teacher_id: '' });
         }
     }, [classData, isOpen]);
@@ -32,7 +30,6 @@ function ClassModal({ isOpen, onClose, onSave, classData, teachers }) {
             alert('Vui lòng chọn một giáo viên phụ trách.');
             return;
         }
-        // Chuyển đổi teacher_id sang kiểu số trước khi gửi
         onSave({ ...formData, teacher_id: parseInt(formData.teacher_id) });
     };
 

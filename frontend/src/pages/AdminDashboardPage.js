@@ -6,22 +6,18 @@ import ClassTable from '../components/admin/ClassTable';
 import ClassModal from '../components/admin/ClassModal';
 
 function AdminDashboardPage() {
-    // === STATES ===
     const [users, setUsers] = useState([]);
     const [classes, setClasses] = useState([]);
     const [activeTab, setActiveTab] = useState('users');
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
 
-    // States cho User Modal
     const [isUserModalOpen, setIsUserModalOpen] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
 
-    // States cho Class Modal
     const [isClassModalOpen, setIsClassModalOpen] = useState(false);
     const [currentClass, setCurrentClass] = useState(null);
 
-    // === DATA FETCHING ===
     const fetchData = useCallback(async () => {
         try {
             setIsLoading(true);
@@ -44,7 +40,6 @@ function AdminDashboardPage() {
         fetchData();
     }, [fetchData]);
 
-    // === USER HANDLERS ===
     const handleOpenUserModal = (user = null) => {
         setCurrentUser(user);
         setIsUserModalOpen(true);
@@ -98,7 +93,6 @@ function AdminDashboardPage() {
         }
     };
 
-    // === CLASS HANDLERS ===
     const handleOpenClassModal = (classData = null) => {
         setCurrentClass(classData);
         setIsClassModalOpen(true);
@@ -110,16 +104,14 @@ function AdminDashboardPage() {
     const handleSaveClass = async (classData) => {
         try {
             if (currentClass && currentClass.id) {
-                // Chế độ Sửa - ĐÃ HOẠT ĐỘNG
                 await apiClient.put(`/classes/${currentClass.id}`, classData);
                 alert(`Cập nhật lớp học '${classData.name}' thành công!`);
             } else {
-                // Chế độ Tạo mới
                 await apiClient.post('/classes/', classData);
                 alert('Tạo lớp học mới thành công!');
             }
             handleCloseClassModal();
-            fetchData(); // Tải lại dữ liệu
+            fetchData(); 
         } catch (err) {
             const errorMsg = err.response?.data?.detail || 'Thao tác thất bại.';
             alert(`Lỗi: ${errorMsg}`);
@@ -131,7 +123,7 @@ function AdminDashboardPage() {
             try {
                 await apiClient.delete(`/classes/${classId}`);
                 alert('Xóa lớp học thành công!');
-                fetchData(); // Tải lại dữ liệu
+                fetchData(); 
             } catch (err) {
                 const errorMsg = err.response?.data?.detail || 'Không thể xóa lớp học.';
                 alert(`Lỗi: ${errorMsg}`);
@@ -140,14 +132,11 @@ function AdminDashboardPage() {
         }
     };
 
-    // Lọc danh sách giáo viên để truyền vào ClassModal
     const teachers = users?.filter(user => user.role === 'teacher') || [];
 
-    // === RENDER LOGIC ===
     if (isLoading) return <p style={{ padding: '20px' }}>Đang tải dữ liệu...</p>;
     if (error) return <p className="error-message" style={{ margin: '20px' }}>{error}</p>;
 
-    // === JSX RETURN - PHẦN GIAO DIỆN ===
     return (
         <div className="admin-dashboard">
             <h1>Bảng điều khiển của Admin</h1>

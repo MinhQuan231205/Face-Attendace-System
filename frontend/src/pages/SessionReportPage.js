@@ -50,7 +50,6 @@ function SessionReportPage() {
         }
     };
 
-    // --- Logic phân loại đã được đơn giản hóa ---
     const presentStudentsLogs = [];
     const absentStudents = [];
     const manuallyMarkedAbsentLogs = [];
@@ -61,7 +60,6 @@ function SessionReportPage() {
         classStudents.forEach(student => {
             const log = studentLogsMap.get(student.id);
             if (log) {
-                // Gộp cả 'late' (nếu còn tồn tại trong DB cũ) vào 'present'
                 if (log.status === 'present' || log.status === 'late') {
                     presentStudentsLogs.push(log);
                 } else if (log.status === 'absent') {
@@ -99,7 +97,6 @@ function SessionReportPage() {
             </div>
             
             <div className="report-details">
-                {/* Danh sách có mặt */}
                 <div className="report-section">
                     <h3>Có mặt ({presentStudentsLogs.length})</h3>
                     <ul>
@@ -111,8 +108,6 @@ function SessionReportPage() {
                         ))}
                     </ul>
                 </div>
-
-                {/* Danh sách vắng mặt */}
                 <div className="report-section">
                     <h3>Vắng mặt ({absentStudents.length + manuallyMarkedAbsentLogs.length})</h3>
                     <ul>

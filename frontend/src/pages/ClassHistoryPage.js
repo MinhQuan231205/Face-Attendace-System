@@ -5,11 +5,10 @@ import apiClient from '../api/axios';
 function ClassHistoryPage() {
     const { classId } = useParams();
     const [logs, setLogs] = useState([]);
-    const [students, setStudents] = useState({}); // Dùng object để tra cứu nhanh
+    const [students, setStudents] = useState({}); 
     const [className, setClassName] = useState('');
     const [isLoading, setIsLoading] = useState(true);
 
-    // Chỉ định nghĩa hàm fetchData một lần bằng useCallback
     const fetchData = useCallback(async () => {
         setIsLoading(true);
         try {
@@ -35,7 +34,6 @@ function ClassHistoryPage() {
         }
     }, [classId]);
     
-    // useEffect gọi hàm fetchData
     useEffect(() => {
         fetchData();
     }, [fetchData]);
@@ -80,7 +78,6 @@ function ClassHistoryPage() {
                     </thead>
                     <tbody>
                         {logs.length > 0 ? logs.map(log => {
-                            // Lấy thông tin sinh viên từ map
                             const student = students[log.user_id];
                             return (
                                 <tr key={log.id}>
@@ -89,8 +86,6 @@ function ClassHistoryPage() {
                                     <td>{new Date(log.timestamp).toLocaleString('vi-VN')}</td>
                                     <td>{log.status}</td>
                                     <td>
-                                        {/* === PHẦN SỬA LỖI QUAN TRỌNG === */}
-                                        {/* Kết nối sự kiện onClick với hàm handleUpdateStatus */}
                                         <button 
                                             className="edit-btn" 
                                             onClick={() => handleUpdateStatus(log.id, log.status)}

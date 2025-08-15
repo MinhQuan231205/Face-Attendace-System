@@ -1,11 +1,8 @@
-import React, { useContext } from 'react'; // Thêm useContext
-import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom'; // Thêm Navigate
+import React, { useContext } from 'react'; 
+import { BrowserRouter as Router, Routes, Route, Link, Navigate } from 'react-router-dom'; 
 import './App.css';
-
-// Import Context
 import { AuthContext } from './context/AuthContext';
 
-// Import các trang
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import AdminDashboardPage from './pages/AdminDashboardPage';
@@ -14,19 +11,14 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import ClassDetailPage from './pages/ClassDetailPage'; 
 import TeacherDashboardPage from './pages/TeacherDashboardPage';
 import AttendancePage from './pages/AttendancePage'; 
-import ClassHistoryPage from './pages/ClassHistoryPage'; // Import
-import SessionManagementPage from './pages/SessionManagementPage'; // <-- IMPORT MỚI
-import SessionReportPage from './pages/SessionReportPage'; // <-- IMPORT MỚI
+import ClassHistoryPage from './pages/ClassHistoryPage';
+import SessionManagementPage from './pages/SessionManagementPage';
+import SessionReportPage from './pages/SessionReportPage';
 
 function App() {
-  // Lấy ra trạng thái auth và hàm logout từ Context
   const { authState, logout } = useContext(AuthContext);
-
   const handleLogout = () => {
     logout();
-    // Sau khi logout, có thể điều hướng về trang chủ hoặc trang đăng nhập
-    // return <Navigate to="/login" />; // Cách này không hoạt động trong event handler
-    // Thay vào đó, việc logout sẽ tự động làm cho ProtectedRoute đá người dùng ra.
   };
 
   return (
@@ -52,9 +44,7 @@ function App() {
 
         <div className="app-content">
           <Routes>
-            <Route path="/login" element={<LoginPage />} />
-            
-            {/* ÁP DỤNG PROTECTED ROUTE */}
+            <Route path="/login" element={<LoginPage />} />            
             <Route 
               path="/admin/dashboard" 
               element={
@@ -119,8 +109,7 @@ function App() {
               </ProtectedRoute>
             } 
             />
-
-            {/* Route mặc định (trang chủ) phải để cuối cùng */}
+            
             <Route path="/" element={<HomePage />} />
           </Routes>
         </div>

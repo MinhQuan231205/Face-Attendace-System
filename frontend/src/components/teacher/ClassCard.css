@@ -36,7 +36,7 @@
 
 .card-body {
     padding: 20px;
-    flex-grow: 1; /* Đảm bảo body chiếm không gian còn lại */
+    flex-grow: 1; 
     color: #666;
 }
 
@@ -46,9 +46,9 @@
     border-top: 1px solid #f0f0f0;
     text-align: right;
 
-    display: flex; /* Sắp xếp các nút */
-    justify-content: flex-end; /* Đẩy về bên phải */
-    gap: 10px; /* Khoảng cách giữa các nút */
+    display: flex; 
+    justify-content: flex-end; 
+    gap: 10px; 
 }
 
 .action-button {
@@ -66,7 +66,7 @@
 }
 
 .action-button.secondary {
-    background-color: #7f8c8d; /* Màu xám */
+    background-color: #7f8c8d; 
 }
 
 .action-button.secondary:hover {

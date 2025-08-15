@@ -12,14 +12,13 @@ function StudentDashboardPage() {
     const fetchData = useCallback(async () => {
         setIsLoading(true);
         try {
-            // Gọi đồng thời 2 API để tiết kiệm thời gian
             const [userResponse, logsResponse] = await Promise.all([
                 apiClient.get('/users/me/'),
                 apiClient.get('/users/me/attendance-logs/')
             ]);
             setCurrentUser(userResponse.data);
             setAttendanceLogs(logsResponse.data);
-        } catch (err) { // <-- ĐÃ XÓA DẤU GẠCH DƯỚI
+        } catch (err) {
             setError('Không thể tải dữ liệu của bạn. Vui lòng thử lại.');
             console.error(err);
         } finally {
@@ -38,14 +37,10 @@ function StudentDashboardPage() {
         <div className="student-dashboard">
             <h1>Chào mừng, {currentUser?.full_name}!</h1>
             <div className="student-dashboard-layout">
-                {/* Cột bên trái cho thông tin cá nhân */}
                 <div className="profile-panel">
-                    {/* Tái sử dụng component MyProfile */}
                     <MyProfile user={currentUser} />
                 </div>
-                {/* Cột bên phải cho lịch sử điểm danh */}
                 <div className="history-panel">
-                    {/* Tái sử dụng component MyAttendanceHistory */}
                     <MyAttendanceHistory logs={attendanceLogs} />
                 </div>
             </div>
