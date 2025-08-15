@@ -29,15 +29,14 @@ Dự án được xây dựng là một Hệ thống Điểm danh Thông minh b�
 
 2.  **Khởi chạy hệ thống bằng Docker Compose:**
     ```bash
-    docker-compose up --build
+    docker-compose up --build -d
     ```
 
 3.  **Truy cập ứng dụng:**
     - Mở trình duyệt và truy cập `http://localhost`.
 
 4.  **Dừng hệ thống:**
-    - Để dừng các container, nhấn `Ctrl + C` trong cửa sổ terminal đang chạy.
-    - Để dừng và xóa các container, network (giữ lại data):
+    - Để dừng và xóa các container (giữ lại data):
       ```bash
       docker-compose down
       ```
@@ -46,7 +45,7 @@ Dự án được xây dựng là một Hệ thống Điểm danh Thông minh b�
       docker-compose down -v
       ```
 
-**với Docker Hub**
+***với Docker Hub**
 
 - **Liên kết đến các image:** 
     - **Backend:** [Xem trên Docker Hub](https://hub.docker.com/r/minhquan2312/face-attendance-system-backend)
