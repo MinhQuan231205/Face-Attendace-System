@@ -12,12 +12,14 @@ Nguyễn Trần Huy - 23020378
 
 ## Mô tả dự án
 
-Dự án được xây dựng là một Hệ thống Điểm danh Thông minh bằng cách ứng dụng công nghệ nhận diện khuôn mặt. Hệ thống hướng đến việc tự động hóa hoàn toàn quy trình điểm danh, cung cấp dữ liệu chính xác và tức thì về sự hiện diện của sinh viên, từ đó giúp giáo viên giảm bớt các công việc thủ công liên quan và cung cấp cho ban quản lý một công cụ mạnh mẽ để theo dõi và phân tích dữ liệu chuyên cần.
+Dự án được xây dựng là một Hệ thống Điểm danh Thông minh bằng cách ứng dụng công nghệ nhận diện khuôn mặt. Hệ thống hướng đến việc tự động hóa hoàn toàn quy trình điểm danh, cung cấp dữ liệu chính xác và tức thì về sự hiện diện của sinh viên, từ đó giúp giáo viên giảm bớt các công việc thủ công liên quan, đồng thời, cung cấp cho ban quản lý một công cụ mạnh mẽ để theo dõi và phân tích dữ liệu chuyên cần.
 
 ## Yêu cầu
 [Docker](https://www.docker.com/get-started) và [Docker Compose](https://docs.docker.com/compose/install/) đã được cài đặt.
 
-## Hướng dẫn khởi chạy hệ thống với Clone repository
+## Hướng dẫn khởi chạy hệ thống 
+
+**với Clone repository**
 
 1.  **Clone repository:**
     ```bash
@@ -44,11 +46,11 @@ Dự án được xây dựng là một Hệ thống Điểm danh Thông minh b�
       docker-compose down -v
       ```
 
-## Hướng dẫn Khởi chạy hệ thống với Docker Hub
+**với Docker Hub**
 
-**Liên kết đến các image:** 
-- **Backend:** [Xem trên Docker Hub](https://hub.docker.com/r/minhquan2312/face-attendance-system-frontend)
-- **Frontend:** [Xem trên Docker Hub](https://hub.docker.com/r/minhquan2312/face-attendance-system-backend)
+- **Liên kết đến các image:** 
+    - **Backend:** [Xem trên Docker Hub](https://hub.docker.com/r/minhquan2312/face-attendance-system-backend)
+    - **Frontend:** [Xem trên Docker Hub](https://hub.docker.com/r/minhquan2312/face-attendance-system-frontend)
 
 1.  **Tải về file `docker-compose.yml`:**
     - Tải về file [docker-compose.yml](./dockerhub/docker-compose.yml) này.
@@ -89,31 +91,29 @@ Dự án được xây dựng là một Hệ thống Điểm danh Thông minh b�
 ```
 face-recognition-attendance/
 ├── backend/
-│   ├── app/               # Logic chính của FastAPI
+│   ├── app/               
 │   │   ├── __init__.py
 │   │   ├── crud.py         # CRUD với DB
-│   │   ├── database.py     # Kết nối SQLAlchemy
+│   │   ├── database.py     # Kết nối DB
 │   │   ├── main.py         # API endpoints
-│   │   ├── models.py       # Models DB
-│   │   ├── schemas.py      # Pydantic schemas
-│   │   └── security.py     # Xác thực & phân quyền
+│   │   ├── models.py       # Định nghĩa bảng DB
+│   │   ├── schemas.py      # Schema Pydantic
+│   │   └── security.py     # Xác thực và phân quyền
 │   ├── Dockerfile          # Build image backend
-│   └── requirements.txt    # Thư viện Python
+│   └── requirements.txt    # Dependencies
 │
 ├── frontend/
 │   ├── public/             # index.html & file tĩnh
-│   ├── src/                # Mã nguồn React
-│   │   ├── api/            # Axios config
+│   ├── src/                
+│   │   ├── api/            # Gọi API 
 │   │   ├── components/     # Component tái sử dụng
-│   │   ├── context/        # AuthContext
-│   │   ├── pages/          # Các trang
+│   │   ├── context/        # Quản lý trạng thái đăng nhập
+│   │   ├── pages/          # Các trang chính
 │   │   ├── App.js          # Routing
-│   │   └── index.js        # Entry point React
+│   │   └── index.js        # Entry point
 │   ├── Dockerfile          # Build image frontend
-│   ├── nginx.conf          # Config Nginx
-│   └── package.json        # Script & dependencies JS
+│   ├── nginx.conf          # Cấu hình Nginx
 │
-├── .gitignore              # Bỏ qua file/thư mục trong Git
 ├── docker-compose.yml      # Chạy toàn bộ hệ thống
-└── README.md               # Hướng dẫn dự án
+└── README.md               # Tài liệu
 ```
