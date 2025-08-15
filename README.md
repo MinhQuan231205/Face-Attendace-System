@@ -102,7 +102,7 @@ face-recognition-attendance/
 │   └── requirements.txt    # Dependencies
 │
 ├── frontend/
-│   ├── public/             # index.html & file tĩnh
+│   ├── public/             # index.html và file tĩnh
 │   ├── src/                
 │   │   ├── api/            # Gọi API 
 │   │   ├── components/     # Component tái sử dụng
